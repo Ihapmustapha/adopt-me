@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { ANIMALS } from 'petfinder-client'
 import { Consumer } from './SearchContext'
+import PropTypes from 'prop-types'
 
-class SearchParams extends Component {
+class SearchBox extends Component {
   render() {
     return (
       <Consumer>
@@ -52,10 +53,15 @@ class SearchParams extends Component {
                 ))}
               </select>
             </label>
+            <button onClick={this.props.search}>Submit</button>
           </div>
         )}
       </Consumer>
     )
   }
 }
-export default SearchParams
+export default SearchBox
+
+SearchBox.propTypes = {
+  search: PropTypes.func
+}

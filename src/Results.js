@@ -3,6 +3,8 @@ import './App.css'
 import Pet from './Pet'
 import pf from 'petfinder-client'
 import SearchBox from './SearchBox'
+import { Consumer } from './SearchContext'
+import PropTypes from 'prop-types'
 
 const petfinder = pf({
   key: process.env.REACT_APP_API_KEY
@@ -16,9 +18,18 @@ class Results extends Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
+    this.search()
+  }
+
+  search = () => {
     petfinder.pet
-      .find({ output: 'full', location: 'Seattle, WA' })
+      .find({
+        output: 'full',
+        location: this.props.searchParams.location,
+        animal: this.props.searchParams.animal,
+        breed: this.props.searchParams.breed
+      })
       .then(data => {
         let pets =
           data.petfinder.pets && data.petfinder.pets.pet
@@ -33,7 +44,7 @@ class Results extends Component {
   render() {
     return (
       <div className="search">
-        <SearchBox />
+        <SearchBox search={this.search} />
         {this.state.pets.map(pet => {
           let breed = Array.isArray(pet.breeds.breed)
             ? pet.breeds.breed.join(', ')
@@ -56,4 +67,17 @@ class Results extends Component {
   }
 }
 
-export default Results
+Results.propTypes = {
+  searchParams: PropTypes.object,
+  animal: PropTypes.string,
+  breed: PropTypes.string
+}
+
+// Normal Function not an arrow function because it will show up in the call stack if we've an error
+export default function ResultsWithContext(props) {
+  return (
+    <Consumer>
+      {context => <Results {...props} searchParams={context} />}
+    </Consumer>
+  )
+}
