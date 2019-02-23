@@ -59,7 +59,12 @@ class App extends Component {
     return (
       <div>
         <header id="app-title">
-          <Link to="/">Adopt Me 🐶🐱🐴🐷🐔</Link>
+          <Link to="/">
+            Adopt Me
+            <span aria-label="logo-emojies" role="img">
+              🐶🐱🐴🐷🐔
+            </span>
+          </Link>
           <Link to="/search-params">
             <span aria-label="search" role="img">
               🔍
