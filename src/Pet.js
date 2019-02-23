@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from '@reach/router'
+import PropTypes from 'prop-types'
 
 class Pet extends Component {
   render() {
@@ -23,6 +24,15 @@ class Pet extends Component {
       </Link>
     )
   }
+}
+
+Pet.propTypes = {
+  name: PropTypes.string,
+  animal: PropTypes.string,
+  breed: PropTypes.string,
+  media: PropTypes.object,
+  location: PropTypes.string,
+  id: PropTypes.string
 }
 
 export default Pet
